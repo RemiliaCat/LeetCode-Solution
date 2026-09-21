@@ -1,0 +1,75 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-cpp",
+            "type": "shell",
+            "command": "clang++",
+            "args": [
+                "${file}",
+                "-std=c++20",
+                "-g",
+                "-O0",
+                "-fms-extensions",
+                "-I",
+                "include",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "build-c",
+            "type": "shell",
+            "command": "clang",
+            "args": [
+                "${file}",
+                "-std=c17",
+                "-g",
+                "-O0",
+                "-fms-extensions",
+                "-I",
+                "include",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-D_CRT_SECURE_NO_WARNINGS"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "wt.exe",
+            "args": [
+                "-w",
+                "new",
+                "new-tab",
+                "--",
+                "pwsh.exe",
+                "-NoExit",
+                "-NoProfile",
+                "-Command",
+                "& '${fileDirname}\\${fileBasenameNoExtension}.exe'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build-run-cpp",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build-cpp",
+                "run"
+            ]
+        },
+        {
+            "label": "build-run-c",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build-c",
+                "run"
+            ]
+        }
+    ]
+}
